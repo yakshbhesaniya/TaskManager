@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TaskManager.Domain.Entities
 {
-    public class Employee
+    public class Employee : IdentityUser
     {
         public int EmployeeId { get; set; } 
         public string EmployeeFirstName { get; set; }
