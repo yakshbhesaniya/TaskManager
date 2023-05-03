@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -28,6 +30,7 @@ namespace TaskManager.API.Controllers
 
         // GET: api/Employee
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUserDetails()
         {
             if(_context.Users == null)
@@ -49,6 +52,7 @@ namespace TaskManager.API.Controllers
 
         // GET: api/Employee/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<UserDTO>> GetUser(string id)
         {
             if(_context.Users == null)
@@ -77,6 +81,7 @@ namespace TaskManager.API.Controllers
         // PUT: api/Employee/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutUser(string id, UserDTO input)
         {
             if(id != input.UserId)
@@ -109,6 +114,7 @@ namespace TaskManager.API.Controllers
 
         // DELETE: api/Employee/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(string id)
         {
             if(_context.Users == null)
