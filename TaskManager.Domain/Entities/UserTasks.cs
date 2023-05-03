@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace TaskManager.Domain.Entities
 {
-    public class EmployeeTasks
+    public class UserTasks
     {
         [Key]
         public Guid TaskId { get; set; }
-        [ForeignKey("Education")]
-        public Guid EmployeeId { get; set; }
-        public Employee Employee { get; set; }  
+        [ForeignKey("User")]
+        public Guid UserId { get; set; }  
         public string TaskDescription { get; set; }
         public DateTime TaskDateTime { get; set; } 
         public bool TaskStatus { get; set; }

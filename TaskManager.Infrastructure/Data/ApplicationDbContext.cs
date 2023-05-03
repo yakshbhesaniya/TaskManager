@@ -10,15 +10,14 @@ using TaskManager.Domain.Entities;
 
 namespace TaskManager.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Employee, IdentityRole, string>
+    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
-        public DbSet<Admin> AdminDetails { get; set; }
-        public DbSet<Employee> EmployeeDetails { get; set; }
-        public DbSet<EmployeeTasks> TaskDetails { get; set; }
+        public DbSet<User> UserDetails { get; set; }
+        public DbSet<UserTasks> TaskDetails { get; set; }
 
 
 

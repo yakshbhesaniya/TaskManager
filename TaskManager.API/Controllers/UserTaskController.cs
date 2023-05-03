@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TaskManager.API.DTOs;
 using TaskManager.Domain.Entities;
 using TaskManager.Infrastructure.Data;
 
@@ -12,29 +13,39 @@ namespace TaskManager.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeTaskController : ControllerBase
+    public class UserTaskController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public EmployeeTaskController(ApplicationDbContext context)
+        public UserTaskController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: api/EmployeeTask
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EmployeeTasks>>> GetTaskDetails()
+        public async Task<ActionResult<IEnumerable<UserTasks>>> GetTaskDetails()
         {
           if (_context.TaskDetails == null)
           {
               return NotFound();
           }
-            return await _context.TaskDetails.ToListAsync();
+            
+            var tasks = await _context.TaskDetails.ToListAsync();
+
+            return Ok(tasks.Select(u => new TaskDTO
+            {
+                TaskId = u.TaskId,
+                TaskDescription = u.TaskDescription,
+                TaskDateTime = u.TaskDateTime,
+                TaskStatus = u.TaskStatus,
+                UserId = u.UserId
+            })); ;
         }
 
         // GET: api/EmployeeTask/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<EmployeeTasks>> GetEmployeeTasks(Guid id)
+        public async Task<ActionResult<UserTasks>> GetUserTasks(Guid id)
         {
           if (_context.TaskDetails == null)
           {
@@ -53,14 +64,14 @@ namespace TaskManager.API.Controllers
         // PUT: api/EmployeeTask/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployeeTasks(Guid id, EmployeeTasks employeeTasks)
+        public async Task<IActionResult> PutUserTasks(Guid id, UserTasks userTasks)
         {
-            if (id != employeeTasks.TaskId)
+            if (id != userTasks.TaskId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(employeeTasks).State = EntityState.Modified;
+            _context.Entry(userTasks).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +79,7 @@ namespace TaskManager.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EmployeeTasksExists(id))
+                if (!UserTasksExists(id))
                 {
                     return NotFound();
                 }
@@ -84,21 +95,21 @@ namespace TaskManager.API.Controllers
         // POST: api/EmployeeTask
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<EmployeeTasks>> PostEmployeeTasks(EmployeeTasks employeeTasks)
+        public async Task<ActionResult<UserTasks>> PostUserTasks(UserTasks userTasks)
         {
           if (_context.TaskDetails == null)
           {
               return Problem("Entity set 'ApplicationDbContext.TaskDetails'  is null.");
           }
-            _context.TaskDetails.Add(employeeTasks);
+            _context.TaskDetails.Add(userTasks);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEmployeeTasks", new { id = employeeTasks.TaskId }, employeeTasks);
+            return CreatedAtAction("GetUserTasks", new { id = userTasks.TaskId }, userTasks);
         }
 
         // DELETE: api/EmployeeTask/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmployeeTasks(Guid id)
+        public async Task<IActionResult> DeleteUserTasks(Guid id)
         {
             if (_context.TaskDetails == null)
             {
@@ -116,7 +127,7 @@ namespace TaskManager.API.Controllers
             return NoContent();
         }
 
-        private bool EmployeeTasksExists(Guid id)
+        private bool UserTasksExists(Guid id)
         {
             return (_context.TaskDetails?.Any(e => e.TaskId == id)).GetValueOrDefault();
         }
