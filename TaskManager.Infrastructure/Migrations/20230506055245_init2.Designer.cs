@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManager.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using TaskManager.Infrastructure.Data;
 namespace TaskManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230506055245_init2")]
+    partial class init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,35 +158,6 @@ namespace TaskManager.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TaskManager.Domain.Entities.Modules", b =>
-                {
-                    b.Property<Guid>("ModuleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ModuleDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModuleDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("ModuleStatus")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("ModuleTotalTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("TasksTaskId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ModuleId");
-
-                    b.HasIndex("TasksTaskId");
-
-                    b.ToTable("ModuleDetails");
-                });
-
             modelBuilder.Entity("TaskManager.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -267,9 +241,6 @@ namespace TaskManager.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("AssignedTaskTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("TaskDateTime")
                         .HasColumnType("datetime2");
 
@@ -279,9 +250,6 @@ namespace TaskManager.Infrastructure.Migrations
 
                     b.Property<bool>("TaskStatus")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("TaskTotalTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -340,17 +308,6 @@ namespace TaskManager.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("TaskManager.Domain.Entities.Modules", b =>
-                {
-                    b.HasOne("TaskManager.Domain.Entities.UserTasks", "Tasks")
-                        .WithMany()
-                        .HasForeignKey("TasksTaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

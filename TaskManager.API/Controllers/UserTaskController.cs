@@ -39,7 +39,9 @@ namespace TaskManager.API.Controllers
                 TaskDescription = u.TaskDescription,
                 TaskDateTime = u.TaskDateTime,
                 TaskStatus = u.TaskStatus,
-                UserId = u.UserId
+                UserId = u.UserId,
+                AssignedTaskTime= u.AssignedTaskTime,
+                TaskTotalTime= u.TaskTotalTime,
             })); ;
         }
 

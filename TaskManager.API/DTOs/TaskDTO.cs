@@ -11,6 +11,8 @@ namespace TaskManager.API.DTOs
         public Guid UserId { get; set; }
         public string TaskDescription { get; set; }
         public DateTime TaskDateTime { get; set; }
+        public DateTime AssignedTaskTime { get; set; }
+        public DateTime TaskTotalTime { get; set; }
         public bool TaskStatus { get; set; }
     }
 }

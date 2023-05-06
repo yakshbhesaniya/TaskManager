@@ -18,6 +18,7 @@ namespace TaskManager.Infrastructure.Data
 
         public DbSet<User> UserDetails { get; set; }
         public DbSet<UserTasks> TaskDetails { get; set; }
+        public DbSet<Modules> ModuleDetails { get; set; }
 
 
 
